@@ -1,15 +1,24 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activesupport (4.1.4)
+      i18n (~> 0.6, >= 0.6.9)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.1)
+      tzinfo (~> 1.1)
     faraday (0.8.9)
       multipart-post (~> 1.2.0)
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
+    i18n (0.6.11)
     json (1.8.1)
     mime-types (2.3)
+    minitest (5.4.0)
     multipart-post (1.2.0)
     oauth (0.4.7)
     simple_oauth (0.2.0)
+    thread_safe (0.3.4)
     tumblr_client (0.8.3)
       faraday (~> 0.8.9)
       faraday_middleware (~> 0.8)
@@ -17,9 +26,12 @@ GEM
       mime-types
       oauth
       simple_oauth
+    tzinfo (1.2.1)
+      thread_safe (~> 0.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport (~> 4.1.4)
   tumblr_client (~> 0.8.3)
