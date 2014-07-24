@@ -36,6 +36,11 @@ if params['delete']
 end
 
 type = params['t'] || params['type']
+unless ['text', 'photo'].include?(type)
+  puts 'typeはtextまたはphotoを指定してください'
+  puts '例 -t photo'
+  exit false
+end
 
 json_name = params['j'] || params['json']
 if json_name.nil?
