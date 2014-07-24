@@ -14,7 +14,7 @@ unless File.exist?(config_path)
   exit false
 end
 
-params = ARGV.getopts('t:n:u:j:', 'type:', 'number:', 'url:', 'json', 'd')
+params = ARGV.getopts('t:n:u:j:', 'type:', 'number:', 'url:', 'json:', 'd')
 type = params['t'] || type['type']
 # TODO 複数投稿
 # num = params['n'] || type['number'] || 1
