@@ -17,10 +17,8 @@ end
 opts = OptionParser.new
 opts.on('-t', '--type', 'text または photo')
 params = ARGV.getopts('t:n:u:j:', 'type:', 'number:', 'url:', 'json:', 'delete')
-# TODO 複数投稿
-# num = params['n'] || params['number'] || 1
-tumblr_host = params['u'] || params['url']
 
+tumblr_host = params['u'] || params['url']
 if tumblr_host.nil?
   puts 'tumblrのurlを指定してください'
   puts '例: -u hoge.tumblr.com'
@@ -46,12 +44,22 @@ if json_name.nil?
   exit false
 end
 
-uniba_tumblr = UnibaTumblr.new(tumblr_host, config_path, File.expand_path("..", __FILE__), json_name)
 
-case type
-when 'text'
-  article_url = uniba_tumblr.text
-when 'photo'
-  article_url = uniba_tumblr.photo
+num = params['n'] || params['number'] || 1
+if num =~ /[^\d+]/
+  puts '-n には数字を指定してください'
+  puts '例: -n 10'
+  exit false
 end
-puts article_url
+
+num.to_i.times do |i|
+  uniba_tumblr = UnibaTumblr.new(tumblr_host, config_path, File.expand_path("..", __FILE__), json_name)
+  
+  case type
+  when 'text'
+    article_url = uniba_tumblr.text
+  when 'photo'
+    article_url = uniba_tumblr.photo
+  end
+  puts article_url
+end
