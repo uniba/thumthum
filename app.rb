@@ -14,10 +14,11 @@ unless File.exist?(config_path)
   exit false
 end
 
-params = ARGV.getopts('t:n:u:j:', 'type:', 'number:', 'url:', 'json:', 'd')
-type = params['t'] || type['type']
+opts = OptionParser.new
+opts.on('-t', '--type', 'text または photo')
+params = ARGV.getopts('t:n:u:j:', 'type:', 'number:', 'url:', 'json:', 'delete')
 # TODO 複数投稿
-# num = params['n'] || type['number'] || 1
+# num = params['n'] || params['number'] || 1
 tumblr_host = params['u'] || params['url']
 
 if tumblr_host.nil?
@@ -30,6 +31,14 @@ if /^http/ =~ tumblr_host
   tumblr_host = URI.parse(tumblr_host).host
 end
 
+if params['delete']
+  uniba_tumblr = UnibaTumblr.new(tumblr_host, config_path, File.expand_path("..", __FILE__))
+  uniba_tumblr.delete
+  exit
+end
+
+type = params['t'] || params['type']
+
 json_name = params['j'] || params['json']
 if json_name.nil?
   puts 'jsonのファイル名を指定してください'
@@ -37,7 +46,7 @@ if json_name.nil?
   exit false
 end
 
-uniba_tumblr = UnibaTumblr.new(tumblr_host, config_path, json_name, File.expand_path("..", __FILE__))
+uniba_tumblr = UnibaTumblr.new(tumblr_host, config_path, File.expand_path("..", __FILE__), json_name)
 
 case type
 when 'text'
