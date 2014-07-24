@@ -26,6 +26,7 @@ class UnibaTumblr
   end
 
   def photo
+    # TODO @data_hashに破壊的な変更をしないためにcopyする。
     @data_hash[:data] = @data_hash[:data].map { |photo_path| absolute_path("json/#{@tumblr_host}/#{photo_path}") }
     posted = @client.photo(@tumblr_host, @data_hash)
     article_url(posted['id'])
