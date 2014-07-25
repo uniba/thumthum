@@ -4,7 +4,6 @@ require 'uri'
 require 'json'
 require 'bundler'
 Bundler.require
-
 require './lib/uniba_tumblr'
 
 # bundle exec tumblr で作成したconfigファイルを指定
@@ -49,7 +48,6 @@ if json_name.nil?
   exit false
 end
 
-
 num = params['n'] || params['number'] || 1
 if num =~ /[^\d+]/
   puts '-n には数字を指定してください'
@@ -59,7 +57,7 @@ end
 
 num.to_i.times do |i|
   uniba_tumblr = UnibaTumblr.new(tumblr_host, config_path, File.expand_path("..", __FILE__), json_name)
-  
+
   case type
   when 'text'
     article_url = uniba_tumblr.text
