@@ -13,8 +13,6 @@ unless File.exist?(config_path)
   exit false
 end
 
-opts = OptionParser.new
-opts.on('-t', '--type', 'text または photo')
 params = ARGV.getopts('t:n:u:j:', 'type:', 'number:', 'url:', 'json:', 'delete')
 
 tumblr_host = params['u'] || params['url']
