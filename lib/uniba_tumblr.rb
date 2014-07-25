@@ -40,7 +40,7 @@ class UnibaTumblr
       @client.delete(@tumblr_host, post_id)
       puts "delete #{article_url(post_id)}"
     end
-    puts "削除しました"
+    puts "削除が完了しました"
   end
 
   def fetch_all_post_id
