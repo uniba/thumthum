@@ -53,6 +53,6 @@ class ToolCli < Thor
   end
 
   def app_root_path
-    File.expand_path('..', __FILE__)
+    File.expand_path('../..', __FILE__)
   end
 end
