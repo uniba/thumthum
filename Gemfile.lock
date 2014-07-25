@@ -18,6 +18,7 @@ GEM
     multipart-post (1.2.0)
     oauth (0.4.7)
     simple_oauth (0.2.0)
+    thor (0.19.1)
     thread_safe (0.3.4)
     tumblr_client (0.8.3)
       faraday (~> 0.8.9)
@@ -34,4 +35,5 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport (~> 4.1.4)
+  thor (~> 0.19.1)
   tumblr_client (~> 0.8.3)
