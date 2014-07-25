@@ -33,14 +33,15 @@ class UnibaTumblr
   end
 
   def delete
-    posts = fetch_all_posts
-    posts.each do |post|
-      @client.delete(@tumblr_host, post['id'])
+    post_ids = fetch_all_post_id
+    post_ids.each do |post_id|
+      @client.delete(@tumblr_host, post_id)
+      puts "delete #{article_url(post_id)}"
     end
     puts "削除しました"
   end
 
-  def fetch_all_posts
+  def fetch_all_post_id
     # https://www.tumblr.com/docs/en/api/v2#posts のoption
     option = {
       limit: 20,
@@ -48,13 +49,19 @@ class UnibaTumblr
     }
     all_posts = []
 
-    total_posts = @client.blog_info(@tumblr_host)['blog']['posts']
-    until (option[:offset] * option[:limit]) > total_posts
-      posts = @client.posts(@tumblr_host, option)
-      all_posts << posts['posts']
+    present_flag = true
+    while present_flag
+      posts = @client.posts(@tumblr_host, option)['posts']
+      present_flag = posts.present?
+      next unless present_flag # whileを終了させる
+      all_posts << posts
       option[:offset] += 1
     end
-    all_posts.flatten(1)
+
+    all_posts.flatten!(1)
+    all_posts.map! { |post| post['id'] }
+    all_posts.uniq!
+    all_posts
   end
 
   private
