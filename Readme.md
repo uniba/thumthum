@@ -55,7 +55,7 @@ jsonのパラメータは https://www.tumblr.com/docs/en/api/v2#posting を参�
 
 投稿
 
-    ruby app.rb -t text -u http://unibaapitest.tumblr.com -j text.json
+    ruby thumthum post -t text -u unibaapitest.tumblr.com -j text.json -n 2
 
 | option   | description                                                        | sample       | require |
 | --------- | ----------------------------------------------------------------- | ------------ | ------- |
@@ -66,7 +66,7 @@ jsonのパラメータは https://www.tumblr.com/docs/en/api/v2#posting を参�
 
 削除
 
-    ruby app.rb --delete -u http://unibaapitest.tumblr.com
+    ruby thumthum delete -u http://unibaapitest.tumblr.com
 
 | option | description | sample | require |
 | ------ | ------------ | ------ | -------- |
