@@ -2,7 +2,7 @@ require 'yaml'
 require 'json'
 require 'active_support/core_ext'
 
-class UnibaTumblr
+class TumblrWrapper
   def initialize(tumblr_host, config_path, base_path, json_name = nil)
     @tumblr_host = tumblr_host
 

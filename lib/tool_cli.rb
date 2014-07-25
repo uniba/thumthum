@@ -1,7 +1,7 @@
 require 'uri'
 require 'bundler'
 Bundler.require
-require './lib/uniba_tumblr'
+require './lib/tumblr_wrapper'
 
 class ToolCli < Thor
   desc 'post', 'Post tumblr'
@@ -13,12 +13,12 @@ class ToolCli < Thor
     config_path = tumblr_config_path
     tumblr_host = parse_host(options[:url])
     options[:number].to_i.times do |i|
-      uniba_tumblr = UnibaTumblr.new(tumblr_host, config_path, app_root_path, options[:json])
+      tumblr_wrapper = TumblrWrapper.new(tumblr_host, config_path, app_root_path, options[:json])
       case options[:type]
       when 'text'
-        article_url = uniba_tumblr.text
+        article_url = tumblr_wrapper.text
       when 'photo'
-        article_url = uniba_tumblr.photo
+        article_url = tumblr_wrapper.photo
       end
       puts article_url
     end
@@ -29,8 +29,8 @@ class ToolCli < Thor
   def delete
     config_path = tumblr_config_path
     tumblr_host = parse_host(options[:url])
-    uniba_tumblr = UnibaTumblr.new(tumblr_host, config_path, app_root_path)
-    uniba_tumblr.delete
+    tumblr_wrapper = TumblrWrapper.new(tumblr_host, config_path, app_root_path)
+    tumblr_wrapper.delete
   end
 
   private
