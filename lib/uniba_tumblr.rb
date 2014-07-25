@@ -1,3 +1,5 @@
+require 'yaml'
+require 'json'
 require 'active_support/core_ext'
 
 class UnibaTumblr
