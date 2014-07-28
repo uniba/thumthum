@@ -7,8 +7,9 @@ class ToolCli < Thor
   desc 'post', 'Post tumblr'
   option :type, aliases: :t, required: true, type: :string
   option :url, aliases: :u, required: true, type: :string
-  option :json, aliases: :j, required: true, type: :string
+  option :json, aliases: :j, type: :string
   option :number, aliases: :n, default: 1, type: :numeric
+
   def post
     config_path = tumblr_config_path
     tumblr_host = parse_host(options[:url])
