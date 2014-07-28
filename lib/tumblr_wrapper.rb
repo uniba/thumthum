@@ -3,6 +3,8 @@ require 'json'
 require 'active_support/core_ext'
 
 class TumblrWrapper
+  DEFAULT_JSON_PATH = 'lib/data'
+
   def initialize(tumblr_host, config_path, base_path, json_name = nil)
     @tumblr_host = tumblr_host
 
@@ -15,22 +17,28 @@ class TumblrWrapper
     end
 
     @client = Tumblr::Client.new
-    unless json_name.nil?
-      json_path = "json/#{@tumblr_host}/#{json_name}"
-      @data_hash = JSON.parse(File.read(absolute_path(json_path))).symbolize_keys
-    end
+    @json_name = json_name
     @base_path = base_path
   end
 
   def text
-    posted = @client.text(@tumblr_host, @data_hash)
+    if @json_name.nil?
+      data_hash = parse_default_data_hash('text')
+    else
+      puts "@json_name: #{@json_name}"
+      data_hash = parse_data_hash('text', @json_name)
+    end
+    posted = @client.text(@tumblr_host, data_hash)
     article_url(posted['id'])
   end
 
   def photo
-    # TODO @data_hashに破壊的な変更をしないためにcopyする。
-    @data_hash[:data] = @data_hash[:data].map { |photo_path| absolute_path("json/#{@tumblr_host}/#{photo_path}") }
-    posted = @client.photo(@tumblr_host, @data_hash)
+    if @json_name.nil?
+      data_hash = parse_default_data_hash('photo')
+    else
+      data_hash = parse_data_hash('photo', @json_name)
+    end
+    posted = @client.photo(@tumblr_host, data_hash)
     article_url(posted['id'])
   end
 
@@ -74,5 +82,29 @@ class TumblrWrapper
 
   def article_url(id)
     "http://#{@tumblr_host}/#{id}"
+  end
+
+  def parse_default_data_hash(type)
+    if type == 'text'
+      json_name = "#{DEFAULT_JSON_PATH}/text.json"
+    elsif type == 'photo'
+      json_name = "#{DEFAULT_JSON_PATH}/photo.json"
+    end
+
+    json_path = absolute_path(json_name)
+    data_hash = JSON.parse(File.read(absolute_path(json_path))).symbolize_keys
+    data_hash[:data] = data_hash[:data].map { |photo_path| absolute_path("#{DEFAULT_JSON_PATH}/#{photo_path}") } if type == 'photo'
+    data_hash
+  end
+
+  def parse_data_hash(type, json_path)
+    json_path = absolute_path(json_path)
+    unless File.exist?(json_path)
+      puts "#{json_path} は存在しません"
+      exit false
+    end
+    data_hash = JSON.parse(File.read(json_path)).symbolize_keys
+    data_hash[:data] = data_hash[:data].map { |photo_path| File.expand_path("../#{photo_path}", json_path) } if type == 'photo'
+    data_hash
   end
 end
