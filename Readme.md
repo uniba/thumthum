@@ -55,13 +55,21 @@ jsonのパラメータは https://www.tumblr.com/docs/en/api/v2#posting を参�
 
 投稿
 
-    ruby thumthum post -t text -u unibaapitest.tumblr.com -j text.json -n 2
+デフォルトのデータを利用
+
+    ruby thumthum post -t text -u unibaapitest.tumblr.com -n 3
+    ruby thumthum post -t photo -u unibaapitest.tumblr.com
+
+指定のパスのデータを利用
+
+    ruby thumthum post -t text -u unibaapitest.tumblr.com -j json/custom/text.json -n 2
+    ruby thumthum post -t photo -u unibaapitest.tumblr.com -j json/custom/photo.json
 
 | option   | description                                                        | sample       | require |
 | --------- | ----------------------------------------------------------------- | ------------ | ------- |
 | -t or --type | text または photo | -t text | yes |
 | -u or --url | 投稿したいtumblrのurl | -u http://unibaapitest.tumblr.com/ | yes |
-| -j or --json | 使用するjsonファイル名。「jsonファイル用意」で作成したものを指定する。 | -j test.json | yes |
+| -j or --json | 使用するjsonファイル名。「jsonファイル用意」で作成したものを指定する。 | -j test.json | no |
 | -n or --number | 投稿する件数(指定しない時は 1) | -n 20 | no |
 
 削除
