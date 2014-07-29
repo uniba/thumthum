@@ -91,19 +91,23 @@ class TumblrWrapper
     end
 
     json_path = absolute_path(json_name)
-    data_hash = JSON.parse(File.read(absolute_path(json_path))).symbolize_keys
+    data_hash = parse_json(json_path)
     data_hash[:data] = data_hash[:data].map { |photo_path| absolute_path("#{DEFAULT_JSON_PATH}/#{photo_path}") } if type == 'photo'
     data_hash
   end
 
-  def parse_data_hash(type, json_path)
-    json_path = absolute_path(json_path)
+  def parse_data_hash(type, json_name)
+    json_path = absolute_path(json_name)
     unless File.exist?(json_path)
       puts "#{json_path} は存在しません"
       exit false
     end
-    data_hash = JSON.parse(File.read(json_path).to_s.gsub(/[\r\n]/,"")).symbolize_keys
+    data_hash = parse_json(json_path)
     data_hash[:data] = data_hash[:data].map { |photo_path| File.expand_path("../#{photo_path}", json_path) } if type == 'photo'
     data_hash
+  end
+
+  def parse_json(json_path)
+    JSON.parse(File.read(json_path).to_s.gsub(/[\r\n]/,"")).symbolize_keys
   end
 end
