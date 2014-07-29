@@ -25,7 +25,6 @@ class TumblrWrapper
     if @json_name.nil?
       data_hash = parse_default_data_hash('text')
     else
-      puts "@json_name: #{@json_name}"
       data_hash = parse_data_hash('text', @json_name)
     end
     posted = @client.text(@tumblr_host, data_hash)
