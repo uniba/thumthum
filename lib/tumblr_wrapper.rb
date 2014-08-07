@@ -64,7 +64,7 @@ class TumblrWrapper
       present_flag = posts.present?
       next unless present_flag # whileを終了させる
       all_posts << posts
-      option[:offset] += 1
+      option[:offset] += option[:limit]
     end
 
     all_posts.flatten!(1)
